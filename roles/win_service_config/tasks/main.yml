@@ -1,0 +1,26 @@
+---
+# tasks file for win_service_config
+ - name: install openssh
+   win_chocolatey:
+      name: "{{ package_name }}"
+     # params: "{{ parameters }}"
+      state: present 
+   when: ansible_distribution == "Microsoft Windows Server 2012 R2 Standard"
+
+ - name: win service restart
+   win_service:
+      name: "{{ service_name }}"
+      path: "{{ parameters }}"
+      state: started
+      enable: true
+   when: ansible_distribution == "Microsoft Windows Server 2012 R2 Standard"
+
+ - name: create firewall rule
+   win_firewall_rule:
+      name: "{{ service_name }}"
+      localport: "{{ local_port }}"
+      action: allow
+      direction: in
+      protocol: "{{ protocol_name }}"
+      state: present
+      enabled: yes

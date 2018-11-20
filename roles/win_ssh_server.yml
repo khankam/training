@@ -1,0 +1,6 @@
+---
+ - name: install openssh
+   hosts: windows
+#   gather_facts: false
+   roles:
+      - win_service_config

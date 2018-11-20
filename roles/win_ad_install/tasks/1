@@ -1,0 +1,27 @@
+---
+# tasks file for win_ad_install
+ - name: install AD-Domain-Services 
+   win_feature: 
+       name: AD-Domain-Services
+       state: present
+   
+ - name: set up AD controller
+   win_domain:
+    dns_domain_name: "{{ ad_domain_name }}"
+    safe_mode_password: "{{ ad_safe_mode_password }}"
+
+# - name: ensure ad user is present
+#   win_domain_user:
+#    name: "{{ ad_admin_user }}"
+#    password: "{{ ad_admin_password }}"
+#    state: present
+ 
+ - name: reboot
+   win_reboot:
+   
+ - name: print domain list
+   win_shell: " nltest /dclist:{{ ad_domain_name }}" 
+   register: out
+
+ - debug: 
+     msg: "{{ out.stdout_lines }}"

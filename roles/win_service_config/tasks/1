@@ -1,0 +1,13 @@
+---
+# tasks file for win_service_config
+ - name: install openssh
+   chocolatey:
+      name: "{{ package_name }}"
+      state: present
+
+ - name: win service restart
+   win_service:
+      name: "{{ service_name }}"
+      state: started
+      enable: true
+
